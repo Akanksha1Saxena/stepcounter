@@ -66,7 +66,6 @@ class MainActivity : ComponentActivity(), SensorEventListener, LocationListener 
     private var calories_burned: Double = 0.0
     private var current_speed: Float = 0f
     private var sleeping_status = false
-    private var sleep_start: Long = 0
     private var sleep_status_msg = "Asleep"
     private val total_steps_count = mutableStateOf(10000)
 
@@ -124,7 +123,7 @@ class MainActivity : ComponentActivity(), SensorEventListener, LocationListener 
         sensor_step = sensor_managing.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
 
         if (sensor_step == null) {
-            // Handle the absence of a step sensor here
+
             Log.d("StepCounter", "No Step Sensor found!")
             return
         }
@@ -155,6 +154,10 @@ class MainActivity : ComponentActivity(), SensorEventListener, LocationListener 
             current_speed = location.speed  // speed in m/s
             val distance = location.distanceTo(last_Location)
             tot_dist_meters += distance
+            val weightKg = 70.0  // Replace with the user's weight in kilograms
+            val met = 8.0  // MET value for the activity (adjust as needed)
+            val timeInSeconds = 1.0  // Time in seconds
+            calories_burned += (met * weightKg * timeInSeconds) / 3600
 
         }
         lastseen_location = location
@@ -172,7 +175,7 @@ class MainActivity : ComponentActivity(), SensorEventListener, LocationListener 
             sensor_managing.registerListener(this, accelerometer_Sensor, SensorManager.SENSOR_DELAY_NORMAL)
             Log.d("StepCounter", "onResume: Accelerometer sensor listener registered.")
         } else {
-            // Handle the absence of the accelerometer sensor here
+
             Log.d("StepCounter", "No Accelerometer Sensor found!")
         }
     }
@@ -227,11 +230,11 @@ class MainActivity : ComponentActivity(), SensorEventListener, LocationListener 
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     Step_Sensor()
                 } else {
-                    // Permission denied, handle the limitation
+
                     Log.d("StepCounter", "Activity Recognition permission denied.")
                 }
             }
-            // ... Handle other permissions if necessary
+
         }
     }
 }
@@ -273,7 +276,7 @@ fun EncouragementAndFoodScreen(steps: Int, calories_burned: Double, onBackClick:
 
                 ) {
                 Image(
-                    painter = painterResource(id = R.drawable.food_icon), // Replace with your food icon
+                    painter = painterResource(id = R.drawable.food_icon),
                     contentDescription = "Food Icon",
                     modifier = Modifier.size(36.dp)
                 )
@@ -334,7 +337,7 @@ fun StepCounterApp(
                     border = BorderStroke(
                         5.dp,
                         Color.hsl(hue = 200f, saturation = 1f, lightness = 0.25f)
-                    ), // Replace Color.Blue with your chosen color
+                    ),
                     shape = CircleShape
                 )
         ) {
@@ -378,7 +381,7 @@ fun StepCounterApp(
                 )
             }
         }
-        // ... rest of your cards for other details
+
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -401,7 +404,7 @@ fun StepCounterApp(
                 )
             }
         }
-        // ... rest of your cards for other details
+
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -424,7 +427,7 @@ fun StepCounterApp(
                 )
             }
         }
-        // ... rest of your cards for other details
+
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -449,7 +452,7 @@ fun StepCounterApp(
         }
 
         Button(
-            onClick = { onFoodSuggestionClick() }, // Navigate to the new screen
+            onClick = { onFoodSuggestionClick() },
             modifier = Modifier.padding(top = 16.dp)
         ) {
             Text(text = "Food Suggestion")
@@ -462,9 +465,9 @@ fun StepCounterApp(
 @Composable
 fun WelcomeScreen(onArrowClick: () -> Unit) {
     val gradientBrush = Brush.verticalGradient(
-        colors = listOf(Color(0xFF2196F3), Color(0xFF0D47A1)), // Specify your startColor and endColor
+        colors = listOf(Color(0xFF2196F3), Color(0xFF0D47A1)),
         startY = 0f,
-        endY = 500f //
+        endY = 500f
     )
 
     Column(
@@ -476,24 +479,24 @@ fun WelcomeScreen(onArrowClick: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.run_circle_white_36dp), // Replace 'your_image' with your image resource ID
-            contentDescription = null, // Provide a content description if needed
+            painter = painterResource(id = R.drawable.run_circle_white_36dp),
+            contentDescription = null,
             modifier = Modifier
-                .size(200.dp) // Set the size of the image as needed
+                .size(200.dp)
 
 
         )
 
         Text(
-            text = "Welcome to StepCounter",
+            text = "Welcome to FitnessTracker",
             style = MaterialTheme.typography.titleLarge,
-            color = Color.White // Set the text color
+            color = Color.White
         )
         Image(
-            painter = painterResource(id = R.drawable.arrow), // Replace 'your_image' with your image resource ID
-            contentDescription = "Go to details", // Provide a content description if needed
+            painter = painterResource(id = R.drawable.arrow),
+            contentDescription = "Go to details",
             modifier = Modifier.clickable(onClick = onArrowClick)
-                .size(100.dp) // Set the size of the image as needed
+                .size(100.dp)
 
 
         )
