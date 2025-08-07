@@ -18,7 +18,7 @@ An Android app built in **Kotlin** with **Jetpack Compose** to track **steps, di
 <p align="center">
   <img src="assets/images/welcome_screen.png" alt="Welcome Screen" width="30%" />
   <img src="assets/images/detailed_screen.png" alt="Detailed Screen" width="30%" />
-  <img src="assets/images/suggestion_screen.png" alt="Suggestion Screen" width="30%" />
+  <img src="assets/images/suggestion_screen_resized.png" alt="Suggestion Screen" width="30%" />
 </p>
 
 ---
